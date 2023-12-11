@@ -1,0 +1,3249 @@
+{
+	"info": {
+		"_postman_id": "54a5790a-8d64-466f-97ab-ba0280190c82",
+		"name": "API BookCart",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27697009"
+	},
+	"item": [
+		{
+			"name": "Happy case",
+			"item": [
+				{
+					"name": "URL",
+					"item": [
+						{
+							"name": "API Status",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}",
+									"host": [
+										"{{baseUrl}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Register new account",
+							"item": [
+								{
+									"name": "Register with valid data",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"userId\": \"0\",\n  \"firstName\": \"phuong\",\n  \"lastName\": \"vo\",\n  \"username\": \"vnphuong\",\n  \"password\": \"QQaazzz123\",\n  \"gender\": \"female\",\n  \"userTypeId\": \"0\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/User",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"User"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Check the availability of the username",
+							"item": [
+								{
+									"name": "Existing username",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"pm.test(\"test body\", function ()  {",
+													"const typeData = pm.response.json();",
+													"pm.expect(typeData).to.be.a(\"boolean\")",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/User/validateUserName/:userName",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"User",
+												"validateUserName",
+												":userName"
+											],
+											"variable": [
+												{
+													"key": "userName",
+													"value": "nth123",
+													"description": "<required>"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "Login with valid data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json()",
+											"pm.collectionVariables.set(\"apiKey\", \"Bearer \"+ response.token);",
+											"pm.collectionVariables.set(\"userId\", response.userDetails.userId);",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"const schema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"token\": {",
+											"            \"type\": \"string\",",
+											"        },",
+											"        \"userDetails\": {",
+											"            \"userId\": {",
+											"            \"type\": \"integer\",",
+											"        },",
+											"        \"firstName\": {",
+											"            \"type\": \"null\",",
+											"        },",
+											"        \"lastName\": {",
+											"            \"type\": \"null\",",
+											"        },",
+											"        \"username\": {",
+											"            \"type\": \"string\",",
+											"        },",
+											"        \"password\": {",
+											"            \"type\": \"null\",",
+											"        },",
+											"        \"gender\": {",
+											"            \"type\": \"null\",",
+											"        },",
+											"        \"userTypeId\": {",
+											"            \"type\": \"integer\",",
+											"        }",
+											"       }",
+											"    }",
+											"};",
+											"",
+											"pm.test(\"Validate schema\", function () {",
+											"    pm.response.to.have.jsonSchema(schema)",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"userId\": \"0\",\n  \"firstName\": \"phuong\",\n  \"lastName\": \"vo\",\n  \"username\": \"vnphuong\",\n  \"password\": \"QQaazzz123\",\n  \"gender\": \"female\",\n  \"userTypeId\": \"0\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Book",
+					"item": [
+						{
+							"name": "Get list of available books",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"const schema = {",
+											"    \"type\": \"array\",",
+											"    \"items\": [",
+											"        {",
+											"            \"type\": \"object\",",
+											"            \"properties\":",
+											"            {",
+											"                \"bookId\": {",
+											"                    \"type\": \"number\",",
+											"                },",
+											"                \"title\": {",
+											"                    \"type\": \"string\"",
+											"                },",
+											"                \"author\": {",
+											"                    \"type\": \"string\"",
+											"                },",
+											"                \"category\": {",
+											"                    \"type\": \"string\"",
+											"                },",
+											"                \"price\": {",
+											"                    \"type\": \"number\"",
+											"                },",
+											"                \"coverFileName\": {",
+											"                    \"type\": \"string\"",
+											"                } ",
+											"            }",
+											"        }",
+											"    ]",
+											"    ",
+											"};",
+											"pm.test(\"Validate schema\", function () {",
+											"    pm.response.to.have.jsonSchema(schema)",
+											"});",
+											"",
+											"const response = pm.response.json()",
+											"pm.collectionVariables.set(\"bookId\",response[1].bookId)",
+											"pm.collectionVariables.set(\"categoryName\",response[1].category)",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/Book",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Book"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get the list of available categories",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"const schema = {",
+											"    \"type\": \"array\",",
+											"    \"items\": [",
+											"        {",
+											"            \"type\": \"object\",",
+											"            \"properties\":",
+											"            {",
+											"                \"categoryId\": {",
+											"                    \"type\": \"number\",",
+											"                },",
+											"                \"categoryName\": {",
+											"                    \"type\": \"string\"",
+											"                }",
+											"            }",
+											"        }",
+											"    ]",
+											"    ",
+											"};",
+											"pm.test(\"Validate schema\", function () {",
+											"    pm.response.to.have.jsonSchema(schema)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/Book/GetCategoriesList",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Book",
+										"GetCategoriesList"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get a specific book based with valid BookID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"const schema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\":{",
+											"        \"bookId\": {",
+											"            \"type\": \"number\",",
+											"        },",
+											"        \"title\": {",
+											"            \"type\": \"string\"",
+											"        },",
+											"        \"author\": {",
+											"            \"type\": \"string\"",
+											"        },",
+											"        \"category\": {",
+											"            \"type\": \"string\"",
+											"        },",
+											"        \"price\": {",
+											"            \"type\": \"number\"",
+											"        },",
+											"        \"coverFileName\": {",
+											"            \"type\": \"string\"",
+											"        } ",
+											"    }",
+											"};",
+											"pm.test(\"Validate schema\", function () {",
+											"    pm.response.to.have.jsonSchema(schema)",
+											"});",
+											"",
+											"const response = pm.response.json();",
+											"let bookID = response.bookId",
+											"pm.test(\"Get required BookID=\" + bookID,function(){",
+											"    pm.expect(bookID).to.eql(pm.collectionVariables.get(\"bookId\"))",
+											"})",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/Book/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Book",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{bookId}}",
+											"description": "<required>"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get similar books",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"const schema = {",
+											"    \"type\": \"array\",",
+											"    \"items\": [",
+											"        {",
+											"            \"type\": \"object\",",
+											"            \"properties\":",
+											"            {",
+											"                \"bookId\": {",
+											"                    \"type\": \"number\",",
+											"                },",
+											"                \"title\": {",
+											"                    \"type\": \"string\"",
+											"                },",
+											"                \"author\": {",
+											"                    \"type\": \"string\"",
+											"                },",
+											"                \"category\": {",
+											"                    \"type\": \"string\"",
+											"                },",
+											"                \"price\": {",
+											"                    \"type\": \"number\"",
+											"                },",
+											"                \"coverFileName\": {",
+											"                    \"type\": \"string\"",
+											"                } ",
+											"            }",
+											"        }",
+											"    ]",
+											"    ",
+											"};",
+											"pm.test(\"Validate schema\", function () {",
+											"    pm.response.to.have.jsonSchema(schema)",
+											"});",
+											"const response = pm.response.json();",
+											"let resCategory = response[0].category",
+											"pm.test(\"Get required Category =\" + resCategory, function(){",
+											"    pm.expect(resCategory).to.eql(pm.collectionVariables.get(\"categoryName\"))",
+											"})",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/Book/GetSimilarBooks/:bookId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Book",
+										"GetSimilarBooks",
+										":bookId"
+									],
+									"variable": [
+										{
+											"key": "bookId",
+											"value": "{{bookId}}",
+											"description": "<required>"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ShoppingCart",
+					"item": [
+						{
+							"name": "Add a single item into the shopping cart. If the item already exists, increase the quantity by one",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/ShoppingCart/AddToCart/:userId/:bookId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"ShoppingCart",
+										"AddToCart",
+										":userId",
+										":bookId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userId}}",
+											"description": "(Required) "
+										},
+										{
+											"key": "bookId",
+											"value": "4",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clear the shopping cart",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/ShoppingCart/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"ShoppingCart",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userId}}",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get the list of items in the shopping cart",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"const schema = {",
+											"    \"type\": \"array\",",
+											"    \"items\": [",
+											"  {",
+											"    \"book\": {",
+											"      \"bookId\": Number,",
+											"      \"title\": \"string\",",
+											"      \"author\": \"string\",",
+											"      \"category\": \"string\",",
+											"      \"price\": Number,",
+											"      \"coverFileName\": \"string\"",
+											"    },",
+											"    \"quantity\": Number",
+											"  }",
+											"]",
+											"};",
+											"",
+											"pm.test(\"Validate schema\", function () {",
+											"    pm.response.to.have.jsonSchema(schema)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/ShoppingCart/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"ShoppingCart",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userId}}",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a single item from the cart",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/ShoppingCart/:userId/:bookId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"ShoppingCart",
+										":userId",
+										":bookId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userId}}",
+											"description": "(Required) "
+										},
+										{
+											"key": "bookId",
+											"value": "2",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reduces the quantity by one for an item in shopping cart",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/ShoppingCart/:userId/:bookId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"ShoppingCart",
+										":userId",
+										":bookId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userId}}",
+											"description": "(Required) "
+										},
+										{
+											"key": "bookId",
+											"value": "3",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CheckOut",
+					"item": [
+						{
+							"name": "Checkout from shopping cart",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"orderId\": \"<string>\",\n  \"orderDetails\": [\n    {\n      \"book\": {\n        \"bookId\": \"<integer>\",\n        \"title\": \"<string>\",\n        \"author\": \"<string>\",\n        \"category\": \"<string>\",\n        \"price\": \"<double>\",\n        \"coverFileName\": \"<string>\"\n      },\n      \"quantity\": \"<integer>\"\n    },\n    {\n      \"book\": {\n        \"bookId\": \"<integer>\",\n        \"title\": \"<string>\",\n        \"author\": \"<string>\",\n        \"category\": \"<string>\",\n        \"price\": \"<double>\",\n        \"coverFileName\": \"<string>\"\n      },\n      \"quantity\": \"<integer>\"\n    }\n  ],\n  \"cartTotal\": \"<double>\",\n  \"orderDate\": \"<dateTime>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/CheckOut/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"CheckOut",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userId}}",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Order",
+					"item": [
+						{
+							"name": "Get the list of all the orders placed by a particular user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"const schema = {",
+											"    \"type\": \"array\",",
+											"    \"items\": [",
+											"  {",
+											"    \"orderId\": \"string\",",
+											"    \"orderDetails\": [",
+											"      {",
+											"        \"book\": {",
+											"          \"bookId\": Number,",
+											"          \"title\": \"string\",",
+											"          \"author\": \"string\",",
+											"          \"category\": \"string\",",
+											"          \"price\": Number,",
+											"          \"coverFileName\": \"string\"",
+											"        },",
+											"        \"quantity\": Number",
+											"      }",
+											"    ],",
+											"    \"cartTotal\": Number,",
+											"    \"orderDate\": Date",
+											"  }",
+											"]",
+											"};",
+											"",
+											"pm.test(\"Validate schema\", function () {",
+											"    pm.response.to.have.jsonSchema(schema)",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Order/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Order",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userId}}",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Wishlist",
+					"item": [
+						{
+							"name": "Toggle the items in Wishlist. If item doesn't exists, it will be added to the Wishlist else it will be removed.",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"const schema = {",
+											"    \"type\": \"array\",",
+											"    \"items\": [",
+											"  {",
+											"    \"bookId\": Number,",
+											"    \"title\": \"string\",",
+											"    \"author\": \"string\",",
+											"    \"category\": \"string\",",
+											"    \"price\": Number,",
+											"    \"coverFileName\": \"string\"",
+											"  }",
+											"]",
+											"};",
+											"",
+											"pm.test(\"Validate schema\", function () {",
+											"    pm.response.to.have.jsonSchema(schema)",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Wishlist/ToggleWishlist/:userId/:bookId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Wishlist",
+										"ToggleWishlist",
+										":userId",
+										":bookId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userId}}",
+											"description": "(Required) "
+										},
+										{
+											"key": "bookId",
+											"value": "3",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clear the Wishlist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Wishlist/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Wishlist",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userId}}",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get the list of items in the Wishlist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"const schema = {",
+											"    \"type\": \"array\",",
+											"    \"items\": [",
+											"  {",
+											"    \"bookId\": Number,",
+											"    \"title\": \"string\",",
+											"    \"author\": \"string\",",
+											"    \"category\": \"string\",",
+											"    \"price\": Number,",
+											"    \"coverFileName\": \"string\"",
+											"  }",
+											"]",
+											"};",
+											"",
+											"pm.test(\"Validate schema\", function () {",
+											"    pm.response.to.have.jsonSchema(schema)",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Wishlist/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Wishlist",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userId}}",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Unhappy case",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Register new account",
+							"item": [
+								{
+									"name": "Register with invalid data",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {",
+													"    pm.response.to.have.status(400);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\"userId\": -1,\n  \"firstName\": \"\",\n  \"lastName\": \"nguyen\",\n  \"username\": \"\",\n  \"password\": \"hang1203\",\n  \"gender\": \"female\",\n  \"userTypeId\": 0\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/User",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"User"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Register with missing fields",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {",
+													"    pm.response.to.have.status(400);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"userId\": 0,\n  \"username\": \"nth123\",\n  \"password\": \"hang1203\",\n  \"gender\": \"female\",\n  \"userTypeId\": 0\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/User",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"User"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Register with existing account",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {",
+													"    pm.response.to.have.status(400);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"userId\": \"0\",\n  \"firstName\": \"phuong\",\n  \"lastName\": \"vo\",\n  \"username\": \"vnphuong\",\n  \"password\": \"QQaazzz123\",\n  \"gender\": \"female\",\n  \"userTypeId\": \"0\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/User",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"User"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Check the availability of the username",
+							"item": [
+								{
+									"name": "Non-existing username",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"pm.test(\"test body\", function ()  {",
+													"const typeData = pm.response.json();",
+													"pm.expect(typeData).to.be.a(\"boolean\")",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/User/validateUserName/:userName",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"User",
+												"validateUserName",
+												":userName"
+											],
+											"variable": [
+												{
+													"key": "userName",
+													"value": "nth724",
+													"description": "<required>"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "CheckOut",
+					"item": [
+						{
+							"name": "invlid id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"orderId\": \"<string>\",\n  \"orderDetails\": [\n    {\n      \"book\": {\n        \"bookId\": \"<integer>\",\n        \"title\": \"<string>\",\n        \"author\": \"<string>\",\n        \"category\": \"<string>\",\n        \"price\": \"<double>\",\n        \"coverFileName\": \"<string>\"\n      },\n      \"quantity\": \"<integer>\"\n    },\n    {\n      \"book\": {\n        \"bookId\": \"<integer>\",\n        \"title\": \"<string>\",\n        \"author\": \"<string>\",\n        \"category\": \"<string>\",\n        \"price\": \"<double>\",\n        \"coverFileName\": \"<string>\"\n      },\n      \"quantity\": \"<integer>\"\n    }\n  ],\n  \"cartTotal\": \"<double>\",\n  \"orderDate\": \"<dateTime>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/CheckOut/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"CheckOut",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "-123",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "emty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"orderId\": \"<string>\",\n  \"orderDetails\": [\n    {\n      \"book\": {\n        \"bookId\": \"<integer>\",\n        \"title\": \"<string>\",\n        \"author\": \"<string>\",\n        \"category\": \"<string>\",\n        \"price\": \"<double>\",\n        \"coverFileName\": \"<string>\"\n      },\n      \"quantity\": \"<integer>\"\n    },\n    {\n      \"book\": {\n        \"bookId\": \"<integer>\",\n        \"title\": \"<string>\",\n        \"author\": \"<string>\",\n        \"category\": \"<string>\",\n        \"price\": \"<double>\",\n        \"coverFileName\": \"<string>\"\n      },\n      \"quantity\": \"<integer>\"\n    }\n  ],\n  \"cartTotal\": \"<double>\",\n  \"orderDate\": \"<dateTime>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/CheckOut/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"CheckOut",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "22168",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Wishlist",
+					"item": [
+						{
+							"name": "Invalid ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"const schema = {",
+											"    \"type\": \"array\",",
+											"    \"items\": [",
+											"  {",
+											"    \"bookId\": Number,",
+											"    \"title\": \"string\",",
+											"    \"author\": \"string\",",
+											"    \"category\": \"string\",",
+											"    \"price\": Number,",
+											"    \"coverFileName\": \"string\"",
+											"  }",
+											"]",
+											"};",
+											"",
+											"pm.test(\"Validate schema\", function () {",
+											"    pm.response.to.have.jsonSchema(schema)",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Wishlist/ToggleWishlist/:userId/:bookId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Wishlist",
+										"ToggleWishlist",
+										":userId",
+										":bookId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userId}}",
+											"description": "(Required) "
+										},
+										{
+											"key": "bookId",
+											"value": "-123",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invalid ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Wishlist/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Wishlist",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "-123",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete emty list",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Wishlist/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Wishlist",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "22168",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invalid ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"const schema = {",
+											"    \"type\": \"array\",",
+											"    \"items\": [",
+											"  {",
+											"    \"bookId\": Number,",
+											"    \"title\": \"string\",",
+											"    \"author\": \"string\",",
+											"    \"category\": \"string\",",
+											"    \"price\": Number,",
+											"    \"coverFileName\": \"string\"",
+											"  }",
+											"]",
+											"};",
+											"",
+											"pm.test(\"Validate schema\", function () {",
+											"    pm.response.to.have.jsonSchema(schema)",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Wishlist/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Wishlist",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "-123",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Emty list",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"const schema = {",
+											"    \"type\": \"array\",",
+											"    \"items\": [",
+											"  {",
+											"    \"bookId\": Number,",
+											"    \"title\": \"string\",",
+											"    \"author\": \"string\",",
+											"    \"category\": \"string\",",
+											"    \"price\": Number,",
+											"    \"coverFileName\": \"string\"",
+											"  }",
+											"]",
+											"};",
+											"",
+											"pm.test(\"Validate schema\", function () {",
+											"    pm.response.to.have.jsonSchema(schema)",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Wishlist/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Wishlist",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "22168",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "ShoppingCart",
+							"item": [
+								{
+									"name": "Invalid ID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/ShoppingCart/AddToCart/:userId/:bookId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"ShoppingCart",
+												"AddToCart",
+												":userId",
+												":bookId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "-123",
+													"description": "(Required) "
+												},
+												{
+													"key": "bookId",
+													"value": "4",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/ShoppingCart/AddToCart/:userId/:bookId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"ShoppingCart",
+														"AddToCart",
+														":userId",
+														":bookId"
+													],
+													"variable": [
+														{
+															"key": "userId"
+														},
+														{
+															"key": "bookId"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "<integer>"
+										}
+									]
+								},
+								{
+									"name": "Invalid book ID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {",
+													"    pm.response.to.have.status(400);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/ShoppingCart/AddToCart/:userId/:bookId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"ShoppingCart",
+												"AddToCart",
+												":userId",
+												":bookId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "{{userId}}",
+													"description": "(Required) "
+												},
+												{
+													"key": "bookId",
+													"value": "100",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/ShoppingCart/AddToCart/:userId/:bookId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"ShoppingCart",
+														"AddToCart",
+														":userId",
+														":bookId"
+													],
+													"variable": [
+														{
+															"key": "userId"
+														},
+														{
+															"key": "bookId"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "<integer>"
+										}
+									]
+								},
+								{
+									"name": "Invalid ID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/ShoppingCart/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"ShoppingCart",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "123456789",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/ShoppingCart/:userId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"ShoppingCart",
+														":userId"
+													],
+													"variable": [
+														{
+															"key": "userId"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "<integer>"
+										}
+									]
+								},
+								{
+									"name": "Emty Cart",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/ShoppingCart/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"ShoppingCart",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "22168",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/ShoppingCart/:userId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"ShoppingCart",
+														":userId"
+													],
+													"variable": [
+														{
+															"key": "userId"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "<integer>"
+										}
+									]
+								},
+								{
+									"name": "Invalid Id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});",
+													"",
+													"const schema = {",
+													"    \"type\": \"array\",",
+													"    \"items\": [",
+													"  {",
+													"    \"book\": {",
+													"      \"bookId\": Number,",
+													"      \"title\": \"string\",",
+													"      \"author\": \"string\",",
+													"      \"category\": \"string\",",
+													"      \"price\": Number,",
+													"      \"coverFileName\": \"string\"",
+													"    },",
+													"    \"quantity\": Number",
+													"  }",
+													"]",
+													"};",
+													"",
+													"pm.test(\"Validate schema\", function () {",
+													"    pm.response.to.have.jsonSchema(schema)",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/ShoppingCart/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"ShoppingCart",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "999999999",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/ShoppingCart/:userId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"ShoppingCart",
+														":userId"
+													],
+													"variable": [
+														{
+															"key": "userId"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "[\n  {\n    \"book\": {\n      \"bookId\": \"<integer>\",\n      \"title\": \"<string>\",\n      \"author\": \"<string>\",\n      \"category\": \"<string>\",\n      \"price\": \"<double>\",\n      \"coverFileName\": \"<string>\"\n    },\n    \"quantity\": \"<integer>\"\n  },\n  {\n    \"book\": {\n      \"bookId\": \"<integer>\",\n      \"title\": \"<string>\",\n      \"author\": \"<string>\",\n      \"category\": \"<string>\",\n      \"price\": \"<double>\",\n      \"coverFileName\": \"<string>\"\n    },\n    \"quantity\": \"<integer>\"\n  }\n]"
+										}
+									]
+								},
+								{
+									"name": "Emty cart",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"const schema = {",
+													"    \"type\": \"array\",",
+													"    \"items\": [",
+													"  {",
+													"    \"book\": {",
+													"      \"bookId\": Number,",
+													"      \"title\": \"string\",",
+													"      \"author\": \"string\",",
+													"      \"category\": \"string\",",
+													"      \"price\": Number,",
+													"      \"coverFileName\": \"string\"",
+													"    },",
+													"    \"quantity\": Number",
+													"  }",
+													"]",
+													"};",
+													"",
+													"pm.test(\"Validate schema\", function () {",
+													"    pm.response.to.have.jsonSchema(schema)",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/ShoppingCart/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"ShoppingCart",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "22168",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/ShoppingCart/:userId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"ShoppingCart",
+														":userId"
+													],
+													"variable": [
+														{
+															"key": "userId"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "[\n  {\n    \"book\": {\n      \"bookId\": \"<integer>\",\n      \"title\": \"<string>\",\n      \"author\": \"<string>\",\n      \"category\": \"<string>\",\n      \"price\": \"<double>\",\n      \"coverFileName\": \"<string>\"\n    },\n    \"quantity\": \"<integer>\"\n  },\n  {\n    \"book\": {\n      \"bookId\": \"<integer>\",\n      \"title\": \"<string>\",\n      \"author\": \"<string>\",\n      \"category\": \"<string>\",\n      \"price\": \"<double>\",\n      \"coverFileName\": \"<string>\"\n    },\n    \"quantity\": \"<integer>\"\n  }\n]"
+										}
+									]
+								},
+								{
+									"name": "invalid ID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/ShoppingCart/:userId/:bookId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"ShoppingCart",
+												":userId",
+												":bookId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "-123",
+													"description": "(Required) "
+												},
+												{
+													"key": "bookId",
+													"value": "2",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/ShoppingCart/:userId/:bookId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"ShoppingCart",
+														":userId",
+														":bookId"
+													],
+													"variable": [
+														{
+															"key": "userId"
+														},
+														{
+															"key": "bookId"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "<integer>"
+										}
+									]
+								},
+								{
+									"name": "invalid book ID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {",
+													"    pm.response.to.have.status(400);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/ShoppingCart/:userId/:bookId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"ShoppingCart",
+												":userId",
+												":bookId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "{{userId}}",
+													"description": "(Required) "
+												},
+												{
+													"key": "bookId",
+													"value": "100",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/ShoppingCart/:userId/:bookId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"ShoppingCart",
+														":userId",
+														":bookId"
+													],
+													"variable": [
+														{
+															"key": "userId"
+														},
+														{
+															"key": "bookId"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "<integer>"
+										}
+									]
+								},
+								{
+									"name": "Invalid ID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/ShoppingCart/:userId/:bookId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"ShoppingCart",
+												":userId",
+												":bookId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "-100",
+													"description": "(Required) "
+												},
+												{
+													"key": "bookId",
+													"value": "3",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/ShoppingCart/:userId/:bookId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"ShoppingCart",
+														":userId",
+														":bookId"
+													],
+													"variable": [
+														{
+															"key": "userId"
+														},
+														{
+															"key": "bookId"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "<integer>"
+										}
+									]
+								},
+								{
+									"name": "Invalid book ID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {",
+													"    pm.response.to.have.status(400);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/ShoppingCart/:userId/:bookId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"ShoppingCart",
+												":userId",
+												":bookId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "{{userId}}",
+													"description": "(Required) "
+												},
+												{
+													"key": "bookId",
+													"value": "100",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/ShoppingCart/:userId/:bookId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"ShoppingCart",
+														":userId",
+														":bookId"
+													],
+													"variable": [
+														{
+															"key": "userId"
+														},
+														{
+															"key": "bookId"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "<integer>"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Login with wrong username",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"userId\": 0,\n  \"firstName\": \"hang\",\n  \"lastName\": \"nguyen\",\n  \"username\": \"nth724\",\n  \"password\": \"hang1203\",\n  \"gender\": \"female\",\n  \"userTypeId\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login with wrong password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"userId\": 0,\n  \"firstName\": \"hang\",\n  \"lastName\": \"nguyen\",\n  \"password\": \"hang123\",\n  \"gender\": \"female\",\n  \"userTypeId\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login with missing fields",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400 or 401\", function () {",
+											"    pm.response.to.have.status(401 || 400);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"userId\": 0,\n  \"firstName\": \"hang\",\n  \"lastName\": \"nguyen\",\n  \"username\": \"nth123\",\n  \"gender\": \"female\",\n  \"userTypeId\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Order",
+					"item": [
+						{
+							"name": "Invalid ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"const schema = {",
+											"    \"type\": \"array\",",
+											"    \"items\": [",
+											"  {",
+											"    \"orderId\": \"string\",",
+											"    \"orderDetails\": [",
+											"      {",
+											"        \"book\": {",
+											"          \"bookId\": Number,",
+											"          \"title\": \"string\",",
+											"          \"author\": \"string\",",
+											"          \"category\": \"string\",",
+											"          \"price\": Number,",
+											"          \"coverFileName\": \"string\"",
+											"        },",
+											"        \"quantity\": Number",
+											"      }",
+											"    ],",
+											"    \"cartTotal\": Number,",
+											"    \"orderDate\": Date",
+											"  }",
+											"]",
+											"};",
+											"",
+											"pm.test(\"Validate schema\", function () {",
+											"    pm.response.to.have.jsonSchema(schema)",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Order/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Order",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "100",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Emty orders",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"const schema = {",
+											"    \"type\": \"array\",",
+											"    \"items\": [",
+											"  {",
+											"    \"orderId\": \"string\",",
+											"    \"orderDetails\": [",
+											"      {",
+											"        \"book\": {",
+											"          \"bookId\": Number,",
+											"          \"title\": \"string\",",
+											"          \"author\": \"string\",",
+											"          \"category\": \"string\",",
+											"          \"price\": Number,",
+											"          \"coverFileName\": \"string\"",
+											"        },",
+											"        \"quantity\": Number",
+											"      }",
+											"    ],",
+											"    \"cartTotal\": Number,",
+											"    \"orderDate\": Date",
+											"  }",
+											"]",
+											"};",
+											"",
+											"pm.test(\"Validate schema\", function () {",
+											"    pm.response.to.have.jsonSchema(schema)",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Order/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Order",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "22168",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Book",
+					"item": [
+						{
+							"name": "Get a specific book with invalid BookID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/Book/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Book",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "100",
+											"description": "<required>"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://bookcart.azurewebsites.net"
+		},
+		{
+			"key": "userId",
+			"value": ""
+		},
+		{
+			"key": "apiKey",
+			"value": ""
+		},
+		{
+			"key": "bookId",
+			"value": ""
+		},
+		{
+			"key": "categoryName",
+			"value": ""
+		}
+	]
+}
