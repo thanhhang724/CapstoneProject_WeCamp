@@ -1,0 +1,77 @@
+[
+  {
+    "invalidName": [
+      {
+        "name" :"123"
+      },
+      {
+        "name" :"@#$%"
+      },
+      {
+        "name" :"Phuong123"
+      }
+    
+    ],
+    "addressLine1": "1 Nguyen Dinh Chieu",
+    "addressLine2": "1 Nguyen Dinh Chieu",
+    "pincode": "123123",
+    "state": "Ho Chi Minh"
+  },
+  {
+    "name": "Phuong",
+    "invalidAddressLine":[
+      {
+        "addressLine1": "123",
+        "addressLine2": "123"
+      },
+      {
+        "addressLine1": "@#!$%^",
+        "addressLine2": "@#!$%^"
+      }
+    ],
+    "pincode": "123123",
+    "state": "Ho Chi Minh"
+  },
+  {
+    "name": "Phuong",
+    "addressLine1": "1 Nguyen Dinh Chieu",
+    "addressLine2": "1 Nguyen Dinh Chieu",
+    "invalidPincode":[
+      {
+        "pincode":"abc"
+      },
+      {
+        "pincode":"123"
+      },
+      {
+        "pincode":"1234567"
+      },
+      {
+        "pincode":"012345"
+      }
+    ] ,
+    "state": "Ho Chi Minh"
+  },
+  {
+    "name": "Phuong",
+    "addressLine1": "1 Nguyen Dinh Chieu",
+    "addressLine2": "1 Nguyen Dinh Chieu",
+    "pincode": "123123",
+    "invalidState": [
+      {
+        "state": "123"
+      },
+      {
+        "state": "@#$%^"
+      }
+    ]
+  },
+  {
+    "name":"Phuong",
+    "addressLine1": "1 Nguyen Dinh Chieu",
+    "addressLine2": "1 Nguyen Dinh Chieu",
+    "pincode": "123123",
+    "state": "Ho Chi Minh"
+  }
+
+]

@@ -1,0 +1,77 @@
+
+[
+    {
+    "firstname": "Hang",
+    "lastname": "Nguyen",
+    "username": "nth1236",
+    "password": "Hang1203",
+    "confirmpassword":"Hang1203",
+    "gender" : "Female"
+},
+{
+    "firstname": "Hang",
+    "lastname": "Nguyen",
+    "username": "nth123",
+    "password": "Hang1203",
+    "confirmpassword":"Hang1203",
+    "gender" : "Female"
+},
+{
+    "firstname": "Hang",
+    "lastname": "Nguyen",
+    "username": "",
+    "password": "Hang1203",
+    "confirmpassword":"Hang1203",
+    "gender" : "Female"
+},
+{
+    "firstname": "Hang",
+    "lastname": "Nguyen",
+    "username": "nth123123",
+    "password": "Hang123",
+    "confirmpassword":"Hang123",
+    "gender" : "Female"
+},
+{
+    "firstname": "Hang",
+    "lastname": "Nguyen",
+    "username": "nth123123",
+    "password": "Hang1234",
+    "confirmpassword":"Hang1235",
+    "gender" : "Female"
+},
+{
+    "firstname": "Hang",
+    "lastname": "Nguyen",
+    "username": "nth123123",
+    "password": "HANGABCD",
+    "confirmpassword":"HANGABCD",
+    "gender" : "Female"
+},
+{
+    "firstname": "Hang",
+    "lastname": "Nguyen",
+    "username": "nth123123",
+    "password": "hangabc12",
+    "confirmpassword":"hangabc12",
+    "gender" : "Female"
+},
+{
+    "firstname": "Hang",
+    "lastname": "Nguyen",
+    "username": "nth123123",
+    "password": "12345678",
+    "confirmpassword":"12345678",
+    "gender" : "Female"
+},
+{
+    "firstname": "Hang",
+    "lastname": "Nguyen",
+    "username": "nth123123",
+    "password": "Hangabc",
+    "confirmpassword":"Hangabc",
+    "gender" : "Female"
+}
+
+]
+
